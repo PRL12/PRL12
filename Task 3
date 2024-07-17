@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>To-Do List</h1>
+        <div class="input-container">
+            <input type="text" id="taskInput" placeholder="Add a new task...">
+            <button onclick="addTask()">Add Task</button>
+        </div>
+        <div class="tasks-container">
+            <h2>Pending Tasks</h2>
+            <ul id="pendingTasksList"></ul>
+        </div>
+        <div class="tasks-container">
+            <h2>Completed Tasks</h2>
+            <ul id="completedTasksList"></ul>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.input-container input {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.input-container button {
+    padding: 10px;
+    border: none;
+    background-color: #28a745;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.input-container button:hover {
+    background-color: #218838;
+}
+
+.tasks-container {
+    margin-top: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+}
+
+li.completed {
+    text-decoration: line-through;
+    background-color: #d4edda;
+}
+
+
+
+
+function addTask() {
+    const taskInput = document.getElementById('taskInput');
+    const taskText = taskInput.value;
+    if (taskText === '') {
+        alert('Please enter a task.');
+        return;
+    }
+
+    const pendingTasksList = document.getElementById('pendingTasksList');
+    const listItem = document.createElement('li');
+
+    const taskSpan = document.createElement('span');
+    taskSpan.textContent = taskText;
+    listItem.appendChild(taskSpan);
+
+    const completeButton = document.createElement('button');
+    completeButton.textContent = 'Complete';
+    completeButton.onclick = () => completeTask(listItem);
+    listItem.appendChild(completeButton);
+
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = 'Delete';
+    deleteButton.onclick = () => deleteTask(listItem);
+    listItem.appendChild(deleteButton);
+
+    pendingTasksList.appendChild(listItem);
+    taskInput.value = '';
+}
+
+function completeTask(listItem) {
+    const completedTasksList = document.getElementById('completedTasksList');
+    listItem.classList.add('completed');
+    listItem.querySelector('button').remove();
+    completedTasksList.appendChild(listItem);
+}
+
+function deleteTask(listItem) {
+    listItem.remove();
+}
